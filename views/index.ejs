@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <title>Spacestagram</title>
+</head>
+
+<body>
+
+  <div style="background: url('/images/topbg.jpg')" class="mt-0 bg-cover text-white">
+    <div class="container py-5 text-center">
+      <h1 class="font-weight-bold title">Spacestagram</h1>
+      <p class="font-italic mb-0" style="font-size: 18px;">Brought to you by NASA's Astronomy Photo of the Day (APOD)
+        API</p>
+      <p class="font-italic">Made by
+        <a href="https://kanishksachdeva.com" class="text-white">
+          <u>Kanishk Sachdeva</u>
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <div class="container align-items-center">
+
+    <div class="row row-cols-3 row-cols-sm-1 row-cols-md-3 align-items-center">
+
+
+
+      <% var i=0; %>
+        <% data.forEach((ele)=> { %>
+          <% if (!String(ele.url).includes("youtube.com")) { %>
+            <div class="col">
+              <div class="card rounded">
+                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                  <img src="<%= ele.url %>" class="img-fluid" />
+                  <p id="imglink" style="display: none;"><%= ele.url %></p>
+                  <a href="#!">
+                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                  </a>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= ele.title %>
+                  </h5>
+                  <p style="font-style: italic; font-size: 12px;">Published on <%= ele.date %>
+                  </p>
+                  <p class="card-text">
+                    <%= String(ele.explanation).substring(0,300) %>....
+                      <a style="color: blue;" data-bs-toggle="popover" title="<%= ele.title %>"
+                        data-bs-content="<%= ele.explanation %>">Read more</a>
+                  </p>
+                  <a onclick="myFunction(this)" class="me-2 btn btn-success">Like <i class="bi bi-hand-thumbs-up"></i></a>
+                  <a onclick="copy()" class="copybtn btn btn-secendory">Copy Image Link <i class="bi bi-clipboard"></i></a>
+                </div>
+                <script>
+                  function myFunction(x) {
+                    if (x.className.includes("btn btn-success")) {
+                      x.className = "btn btn-danger";
+                      x.innerHTML = "Dislike <i class='bi bi-hand-thumbs-down-fill'></i>";
+                    } else {
+                      x.className = "btn btn-success";
+                      x.innerHTML = "Like <i class='bi bi-hand-thumbs-up-fill'></i>";
+                    }
+                  }
+
+                  function copy() {
+                    var copyText = document.getElementById("imglink");
+                    navigator.clipboard.writeText(copyText.innerHTML);
+                    alert("Copied the image link: " + copyText.innerHTML);
+                  }
+                </script>
+              </div>
+            </div>
+            <% i++; %>
+              <% }; %>
+
+                <% }); %>
+
+    </div>
+
+
+  </div>
+
+
+  <script src="/reload/reload.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+  <script>
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl)
+    })
+  </script>
+
+</body>
+
+</html>
